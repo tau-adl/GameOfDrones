@@ -1,28 +1,16 @@
 ﻿using System;
 
-public class TelloStickData
+public class TelloSdkStickData
 {
-    public const short MinValue = -165;
-    public const short MaxValue = +165;
+    public const sbyte MinValue = -100;
+    public const sbyte MaxValue = +100;
 
-    private short _fast;
-    private short _throttle;
-    private short _roll;
-    private short _pitch;
-    private short _yaw;
+    private sbyte _throttle;
+    private sbyte _pitch;
+    private sbyte _roll;
+    private sbyte _yaw;
 
-    public short Fast
-    {
-        get => _fast; set
-        {
-            if (value < MinValue || value > MaxValue)
-                throw new ArgumentOutOfRangeException(nameof(value), value,
-                    $"{GetType().Name}.{nameof(Fast)} must be between {MinValue} and {MaxValue}.");
-            _fast = value;
-        }
-    }
-
-    public short Throttle
+    public sbyte Throttle
     {
         get => _throttle;
         set
@@ -33,18 +21,7 @@ public class TelloStickData
             _throttle = value;
         }
     }
-    public short Roll
-    {
-        get => _roll;
-        set
-        {
-            if (value < MinValue || value > MaxValue)
-                throw new ArgumentOutOfRangeException(nameof(value), value,
-                    $"{GetType().Name}.{nameof(Roll)} must be between {MinValue} and {MaxValue}.");
-            _roll = value;
-        }
-    }
-    public short Pitch
+    public sbyte Pitch
     {
         get => _pitch;
         set
@@ -55,7 +32,18 @@ public class TelloStickData
             _pitch = value;
         }
     }
-    public short Yaw
+    public sbyte Roll
+    {
+        get => _roll;
+        set
+        {
+            if (value < MinValue || value > MaxValue)
+                throw new ArgumentOutOfRangeException(nameof(value), value,
+                    $"{GetType().Name}.{nameof(Roll)} must be between {MinValue} and {MaxValue}.");
+            _roll = value;
+        }
+    }
+    public sbyte Yaw
     {
         get => _yaw;
         set
@@ -92,7 +80,7 @@ public class TelloStickData
         set
         {
             if (MoveLeft != value)
-                Roll = value ? TelloStickData.MinValue : (short)0;
+                Roll = value ? MinValue : (sbyte)0;
         }
     }
 
@@ -102,7 +90,7 @@ public class TelloStickData
         set
         {
             if (MoveRight != value)
-                Roll = value ? TelloStickData.MaxValue : (short)0;
+                Roll = value ? MaxValue : (sbyte)0;
         }
     }
 
@@ -112,7 +100,7 @@ public class TelloStickData
         set
         {
             if (MoveBackward != value)
-                Pitch = value ? TelloStickData.MinValue : (short)0;
+                Pitch = value ? MinValue : (sbyte)0;
         }
     }
 
@@ -122,7 +110,7 @@ public class TelloStickData
         set
         {
             if (MoveForward != value)
-                Pitch = value ? TelloStickData.MaxValue : (short)0;
+                Pitch = value ? MaxValue : (sbyte)0;
         }
     }
 
@@ -132,7 +120,7 @@ public class TelloStickData
         set
         {
             if (MoveDown != value)
-                Throttle = value ? TelloStickData.MinValue : (short)0;
+                Throttle = value ? MinValue : (sbyte)0;
         }
     }
 
@@ -142,7 +130,7 @@ public class TelloStickData
         set
         {
             if (MoveUp != value)
-                Throttle = value ? TelloStickData.MaxValue : (short)0;
+                Throttle = value ? MaxValue : (sbyte)0;
         }
     }
 
@@ -152,7 +140,7 @@ public class TelloStickData
         set
         {
             if (TurnLeft != value)
-                Yaw = value ? TelloStickData.MinValue : (short)0;
+                Yaw = value ? MinValue : (sbyte)0;
         }
     }
 
@@ -162,7 +150,7 @@ public class TelloStickData
         set
         {
             if (TurnRight != value)
-                Yaw = value ? TelloStickData.MaxValue : (short)0;
+                Yaw = value ? MaxValue : (sbyte)0;
         }
     }
 }
