@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARInfo>
+<TargetSet version="14.0" toolVersion="7.0.0">
+<ModelTarget name="tello_v2" targetId="20cd272dd5704fb5bb0dfb18e8ff6c79" version="11.1" toolVersion="8.3.8" bbox="-0.049500 -0.018320 -0.046250 0.049500 0.015307 0.046250" previewImage="20cd272dd5704fb5bb0dfb18e8ff6c79_preview.jpg"/>
+
+</TargetSet>
+
+<Assembly name="tello_v2s_assembly" assemblyId="2b7c11862fff4a83a75d9b46d105a8ea">
+<Part name="tello_v2" translation="0 0 0" rotation="AD: 0 0 1 0"/>
+<EntryPoint name="viewpoint_0000" translation="2.20635e-17 -0.000766814 0.221316" rotation="AD: -0.0030220990283133125 -1.151236087822875 2.0183038315809534 179.915" image="tello_v2_viewpoint_0000.png" trained="yes">
+
+</EntryPoint>
+
+</Assembly>
+
+</QCARInfo>

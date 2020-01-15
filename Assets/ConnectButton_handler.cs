@@ -22,7 +22,8 @@ public class ConnectButton_handler : MonoBehaviour
             // Connect to Drone1 call here
             if (GameManager._telloClient == null)
             {
-                GameManager._telloClient = new TelloClientNative();
+                // command to find Tello IP: for /L %i in (2,1,254) do ping 192.168.43.%i -n 1 -w 2
+                GameManager._telloClient = new TelloSdkClient("192.168.43.33");  // Tello IP address when connecting to shmerl1 hotspot
                 await GameManager._telloClient.StartAsync();
                 Debug.Log("Connected to Drone1");
             }

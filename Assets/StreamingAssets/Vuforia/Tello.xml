@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+<Tracking>
+<ModelTarget name="tello_v2"/>
+
+</Tracking>
+
+<Assembly name="tello_v2s_assembly" assemblyId="2b7c11862fff4a83a75d9b46d105a8ea">
+<Part name="tello_v2" translation="0 0 0" rotation="AD: 0 0 1 0"/>
+<EntryPoint name="viewpoint_0000" translation="2.20635e-17 -0.000766814 0.221316" rotation="AD: -0.0030220990283133125 -1.151236087822875 2.0183038315809534 179.915" trained="yes">
+
+</EntryPoint>
+
+</Assembly>
+
+</QCARConfig>

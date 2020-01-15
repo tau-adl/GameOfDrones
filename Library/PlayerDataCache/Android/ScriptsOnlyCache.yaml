@@ -26,6 +26,8 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Text
     Vuforia.UnityExtensions.dll:
     - Vuforia.ImageTargetBehaviour
+    - Vuforia.ModelTargetBehaviour
+    - Vuforia.PreviewModelTurnOffBehaviour
     - Vuforia.TurnOffBehaviour
     - Vuforia.VuforiaBehaviour
     - Vuforia.VuforiaConfiguration
@@ -101,6 +103,10 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10566}
     - Class: 114
+      Script: {instanceID: 10574}
+    - Class: 114
+      Script: {instanceID: 10584}
+    - Class: 114
       Script: {instanceID: 10588}
     - Class: 114
       Script: {instanceID: 10596}
@@ -137,6 +143,8 @@ ScriptsOnlyBuild:
     - Class: 134
       Script: {instanceID: 0}
     - Class: 135
+      Script: {instanceID: 0}
+    - Class: 136
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}

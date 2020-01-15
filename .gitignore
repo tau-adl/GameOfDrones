@@ -2,4 +2,5 @@ obj/
 Temp/
 Logs/
 .vs/
+Library/
 *.apk
