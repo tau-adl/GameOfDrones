@@ -26,6 +26,8 @@ public class ConnectButton_handler : MonoBehaviour
                 GameManager._telloClient = new TelloSdkClient("192.168.43.33");  // Tello IP address when connecting to shmerl1 hotspot
                 await GameManager._telloClient.StartAsync();
                 Debug.Log("Connected to Drone1");
+                // Set Tello speed
+                GameManager._telloClient.StickDataIntervalMilliseconds = GameManager.Tello_StickDataIntervalMilliseconds;
             }
             else
             {

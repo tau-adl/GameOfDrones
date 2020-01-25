@@ -33,13 +33,28 @@ namespace UnityEngine.Networking
         // Runtime variable
         bool m_ShowServer;
 
+        // factor
+        Vector2 resolution;
+        float factor_x, factor_y;
+        int fact_xpos, fact_ypos, fact_xsize, fact_ysize;
+
         void Awake()
         {
             manager = GetComponent<NetworkManager>();
+            resolution = new Vector2(Screen.width, Screen.height);
+            factor_x = (resolution.x / 1000);
+            factor_y = (resolution.y / 500);
         }
 
         void Update()
         {
+            if (resolution.x != Screen.width || resolution.y != Screen.height)
+            {
+                resolution = new Vector2(Screen.width, Screen.height);
+                factor_x = (resolution.x / 800);
+                factor_y = (resolution.y / 600);
+            }
+
             if (!showGUI)
                 return;
 
@@ -86,7 +101,7 @@ namespace UnityEngine.Networking
                 return;
 
             int xpos = 10 + offsetX;
-            int ypos = 40 + offsetY;
+            int ypos = 20 + offsetY;
             const int spacing = 24;
 
             bool noConnection = (manager.client == null || manager.client.connection == null ||
@@ -98,30 +113,50 @@ namespace UnityEngine.Networking
                 {
                     if (UnityEngine.Application.platform != RuntimePlatform.WebGLPlayer)
                     {
-                        if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Host(H)"))
+                        fact_xpos = (int)(factor_x * xpos);
+                        fact_ypos = (int)(factor_y * ypos);
+                        fact_xsize = (int)(factor_x * 200);
+                        fact_ysize = (int)(factor_y * 20);
+                        if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "LAN Host(H)"))
                         {
                             manager.StartHost();
                         }
                         ypos += spacing;
                     }
 
-                    if (GUI.Button(new Rect(xpos, ypos, 105, 20), "LAN Client(C)"))
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 105);
+                    fact_ysize = (int)(factor_y * 20);
+                    if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "LAN Client(C)"))
                     {
                         manager.StartClient();
                     }
 
-                    manager.networkAddress = GUI.TextField(new Rect(xpos + 100, ypos, 95, 20), manager.networkAddress);
+                    fact_xpos = (int)(factor_x * (xpos + 100));
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 95);
+                    fact_ysize = (int)(factor_y * 20);
+                    manager.networkAddress = GUI.TextField(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), manager.networkAddress);
                     ypos += spacing;
 
                     if (UnityEngine.Application.platform == RuntimePlatform.WebGLPlayer)
                     {
                         // cant be a server in webgl build
-                        GUI.Box(new Rect(xpos, ypos, 200, 25), "(  WebGL cannot be server  )");
+                        fact_xpos = (int)(factor_x * xpos);
+                        fact_ypos = (int)(factor_y * ypos);
+                        fact_xsize = (int)(factor_x * 200);
+                        fact_ysize = (int)(factor_y * 25);
+                        GUI.Box(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "(  WebGL cannot be server  )");
                         ypos += spacing;
                     }
                     else
                     {
-                        if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Server Only(S)"))
+                        fact_xpos = (int)(factor_x * xpos);
+                        fact_ypos = (int)(factor_y * ypos);
+                        fact_xsize = (int)(factor_x * 200);
+                        fact_ysize = (int)(factor_y * 20);
+                        if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "LAN Server Only(S)"))
                         {
                             manager.StartServer();
                         }
@@ -130,11 +165,19 @@ namespace UnityEngine.Networking
                 }
                 else
                 {
-                    GUI.Label(new Rect(xpos, ypos, 200, 20), "Connecting to " + manager.networkAddress + ":" + manager.networkPort + "..");
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 200);
+                    fact_ysize = (int)(factor_y * 20);
+                    GUI.Label(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Connecting to " + manager.networkAddress + ":" + manager.networkPort + "..");
                     ypos += spacing;
 
 
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Cancel Connection Attempt"))
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 200);
+                    fact_ysize = (int)(factor_y * 20);
+                    if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Cancel Connection Attempt"))
                     {
                         manager.StopClient();
                     }
@@ -149,19 +192,31 @@ namespace UnityEngine.Networking
                     {
                         serverMsg += " (Using WebSockets)";
                     }
-                    GUI.Label(new Rect(xpos, ypos, 300, 20), serverMsg);
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 200);
+                    fact_ysize = (int)(factor_y * 20);
+                    GUI.Label(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), serverMsg);
                     ypos += spacing;
                 }
                 if (manager.IsClientConnected())
                 {
-                    GUI.Label(new Rect(xpos, ypos, 300, 20), "Client: address=" + manager.networkAddress + " port=" + manager.networkPort);
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 300);
+                    fact_ysize = (int)(factor_y * 20);
+                    GUI.Label(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Client: address=" + manager.networkAddress + " port=" + manager.networkPort);
                     ypos += spacing;
                 }
             }
 
             if (manager.IsClientConnected() && !ClientScene.ready)
             {
-                if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Client Ready"))
+                fact_xpos = (int)(factor_x * xpos);
+                fact_ypos = (int)(factor_y * ypos);
+                fact_xsize = (int)(factor_x * 200);
+                fact_ysize = (int)(factor_y * 20);
+                if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Client Ready"))
                 {
                     ClientScene.Ready(manager.client.connection);
 
@@ -175,7 +230,11 @@ namespace UnityEngine.Networking
 
             if (NetworkServer.active || manager.IsClientConnected())
             {
-                if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Stop (X)"))
+                fact_xpos = (int)(factor_x * xpos);
+                fact_ypos = (int)(factor_y * ypos);
+                fact_xsize = (int)(factor_x * 200);
+                fact_ysize = (int)(factor_y * 20);
+                if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Stop (X)"))
                 {
                     manager.StopHost();
                 }
@@ -184,17 +243,25 @@ namespace UnityEngine.Networking
 
             if (!NetworkServer.active && !manager.IsClientConnected() && noConnection)
             {
-                ypos += 10;
+                //ypos += 10;
 
                 if (UnityEngine.Application.platform == RuntimePlatform.WebGLPlayer)
                 {
-                    GUI.Box(new Rect(xpos - 5, ypos, 220, 25), "(WebGL cannot use Match Maker)");
+                    fact_xpos = (int)(factor_x * (xpos - 5));
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 220);
+                    fact_ysize = (int)(factor_y * 25);
+                    GUI.Box(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "(WebGL cannot use Match Maker)");
                     return;
                 }
 
                 if (manager.matchMaker == null)
                 {
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Enable Match Maker (M)"))
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 200);
+                    fact_ysize = (int)(factor_y * 20);
+                    if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Enable Match Maker (M)"))
                     {
                         manager.StartMatchMaker();
                     }
@@ -206,19 +273,32 @@ namespace UnityEngine.Networking
                     {
                         if (manager.matches == null)
                         {
-                            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Create Internet Match"))
+                            fact_xpos = (int)(factor_x * xpos);
+                            fact_ypos = (int)(factor_y * ypos);
+                            fact_xsize = (int)(factor_x * 200);
+                            fact_ysize = (int)(factor_y * 20);
+                            if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Create Internet Match"))
                             {
                                 manager.matchMaker.CreateMatch(manager.matchName, manager.matchSize, true, "", "", "", 0, 0, manager.OnMatchCreate);
                             }
                             ypos += spacing;
 
-                            GUI.Label(new Rect(xpos, ypos, 100, 20), "Room Name:");
-                            manager.matchName = GUI.TextField(new Rect(xpos + 100, ypos, 100, 20), manager.matchName);
+                            fact_xpos = (int)(factor_x * xpos);
+                            fact_ypos = (int)(factor_y * ypos);
+                            fact_xsize = (int)(factor_x * 100);
+                            fact_ysize = (int)(factor_y * 20);
+                            GUI.Label(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Room Name:");
+                            fact_xpos = (int)(factor_x * (xpos + 100));
+                            manager.matchName = GUI.TextField(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), manager.matchName);
                             ypos += spacing;
 
-                            ypos += 10;
+                            //ypos += 10;
 
-                            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Find Internet Match"))
+                            fact_xpos = (int)(factor_x * xpos);
+                            fact_ypos = (int)(factor_y * ypos);
+                            fact_xsize = (int)(factor_x * 200);
+                            fact_ysize = (int)(factor_y * 20);
+                            if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Find Internet Match"))
                             {
                                 manager.matchMaker.ListMatches(0, 20, "", false, 0, 0, manager.OnMatchList);
                             }
@@ -229,7 +309,11 @@ namespace UnityEngine.Networking
                             for (int i = 0; i < manager.matches.Count; i++)
                             {
                                 var match = manager.matches[i];
-                                if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Join Match:" + match.name))
+                                fact_xpos = (int)(factor_x * xpos);
+                                fact_ypos = (int)(factor_y * ypos);
+                                fact_xsize = (int)(factor_x * 200);
+                                fact_ysize = (int)(factor_y * 20);
+                                if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Join Match:" + match.name))
                                 {
                                     manager.matchName = match.name;
                                     manager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, manager.OnMatchJoined);
@@ -237,7 +321,11 @@ namespace UnityEngine.Networking
                                 ypos += spacing;
                             }
 
-                            if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Back to Match Menu"))
+                            fact_xpos = (int)(factor_x * xpos);
+                            fact_ypos = (int)(factor_y * ypos);
+                            fact_xsize = (int)(factor_x * 200);
+                            fact_ysize = (int)(factor_y * 20);
+                            if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Back to Match Menu"))
                             {
                                 manager.matches = null;
                             }
@@ -245,26 +333,42 @@ namespace UnityEngine.Networking
                         }
                     }
 
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Change MM server"))
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 200);
+                    fact_ysize = (int)(factor_y * 20);
+                    if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Change MM server"))
                     {
                         m_ShowServer = !m_ShowServer;
                     }
                     if (m_ShowServer)
                     {
                         ypos += spacing;
-                        if (GUI.Button(new Rect(xpos, ypos, 100, 20), "Local"))
+                        fact_xpos = (int)(factor_x * xpos);
+                        fact_ypos = (int)(factor_y * ypos);
+                        fact_xsize = (int)(factor_x * 100);
+                        fact_ysize = (int)(factor_y * 20);
+                        if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Local"))
                         {
                             manager.SetMatchHost("localhost", 1337, false);
                             m_ShowServer = false;
                         }
                         ypos += spacing;
-                        if (GUI.Button(new Rect(xpos, ypos, 100, 20), "Internet"))
+                        fact_xpos = (int)(factor_x * xpos);
+                        fact_ypos = (int)(factor_y * ypos);
+                        fact_xsize = (int)(factor_x * 100);
+                        fact_ysize = (int)(factor_y * 20);
+                        if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Internet"))
                         {
                             manager.SetMatchHost("mm.unet.unity3d.com", 443, true);
                             m_ShowServer = false;
                         }
                         ypos += spacing;
-                        if (GUI.Button(new Rect(xpos, ypos, 100, 20), "Staging"))
+                        fact_xpos = (int)(factor_x * xpos);
+                        fact_ypos = (int)(factor_y * ypos);
+                        fact_xsize = (int)(factor_x * 100);
+                        fact_ysize = (int)(factor_y * 20);
+                        if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Staging"))
                         {
                             manager.SetMatchHost("staging-mm.unet.unity3d.com", 443, true);
                             m_ShowServer = false;
@@ -273,10 +377,18 @@ namespace UnityEngine.Networking
 
                     ypos += spacing;
 
-                    GUI.Label(new Rect(xpos, ypos, 300, 20), "MM Uri: " + manager.matchMaker.baseUri);
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 300);
+                    fact_ysize = (int)(factor_y * 20);
+                    GUI.Label(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "MM Uri: " + manager.matchMaker.baseUri);
                     ypos += spacing;
 
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Disable Match Maker"))
+                    fact_xpos = (int)(factor_x * xpos);
+                    fact_ypos = (int)(factor_y * ypos);
+                    fact_xsize = (int)(factor_x * 200);
+                    fact_ysize = (int)(factor_y * 20);
+                    if (GUI.Button(new Rect(fact_xpos, fact_ypos, fact_xsize, fact_ysize), "Disable Match Maker"))
                     {
                         manager.StopMatchMaker();
                     }

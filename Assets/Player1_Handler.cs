@@ -27,10 +27,6 @@ public class Player1_Handler : MonoBehaviour
     void Start()
     {
         GameManager = GameObject.FindObjectOfType<GameManager>();
-
-        // Tello speed
-        GameManager._telloClient.StickDataIntervalMilliseconds = GameManager.Tello_StickDataIntervalMilliseconds;
-        //rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -39,7 +35,7 @@ public class Player1_Handler : MonoBehaviour
         try
         {
             //Debug.Log(GameManager.PlayerID.ToString());
-            
+
             dirX = 0f;
             dirZ = CrossPlatformInputManager.GetAxis("Horizontal");   // Left-Right
             dirY = CrossPlatformInputManager.GetAxis("Vertical");     // Up-Down

@@ -69,6 +69,7 @@
     <Compile Include="Assets\ConnectButton_handler.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\HoldableButton.cs" />
+    <Compile Include="Assets\NetworkManagerHUDNew.cs" />
     <Compile Include="Assets\Player1_Handler.cs" />
     <Compile Include="Assets\Player2_Handler.cs" />
     <Compile Include="Assets\SFXPlaying.cs" />
