@@ -101,7 +101,7 @@ namespace UnityEngine.Networking
                 return;
 
             int xpos = 10 + offsetX;
-            int ypos = 20 + offsetY;
+            int ypos = 10 + offsetY;
             const int spacing = 24;
 
             bool noConnection = (manager.client == null || manager.client.connection == null ||
