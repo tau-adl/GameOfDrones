@@ -57,33 +57,33 @@ public class Player1_Handler : MonoBehaviour
                     if (dirZ!=0 || dirY!=0) { Debug.Log("DirZ=" + dirZ + ", DirY=" + dirY); }
                     if (GameManager.turn_is_on)
                     {
-                        GameManager._telloClient.TurnLeft     = (dirZ ==  1);
-                        GameManager._telloClient.TurnRight    = (dirZ == -1);
-                        GameManager._telloClient.MoveForward  = (dirY ==  1);
-                        GameManager._telloClient.MoveBackward = (dirY == -1);
+                        GameManager._telloClient.TurnRight    = (dirZ ==  1);
+                        GameManager._telloClient.TurnLeft     = (dirZ == -1);
+                        GameManager._telloClient.MoveBackward = (dirY ==  1);
+                        GameManager._telloClient.MoveForward  = (dirY == -1);
                     }
                     else
                     {
-                        GameManager._telloClient.MoveLeft  = (dirZ ==  1);
-                        GameManager._telloClient.MoveRight = (dirZ == -1);
-                        GameManager._telloClient.MoveUp    = (dirY ==  1);
-                        GameManager._telloClient.MoveDown  = (dirY == -1);
+                        GameManager._telloClient.MoveRight = (dirZ ==  1);
+                        GameManager._telloClient.MoveLeft  = (dirZ == -1);
+                        GameManager._telloClient.MoveDown  = (dirY ==  1);
+                        GameManager._telloClient.MoveUp    = (dirY == -1);
                     }
                 }
 
                 if (GameManager.turn_is_on)
                 {
-                    if (dirZ ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Turn Left");
-                    if (dirZ == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Turn Right");
-                    if (dirY ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Forward");
-                    if (dirY == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Backward");
+                    if (dirZ ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Turn Right");
+                    if (dirZ == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Turn Left");
+                    if (dirY ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Backward");
+                    if (dirY == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Forward");
                 }
                 else
                 {
-                    if (dirZ ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Left");
-                    if (dirZ == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Right");
-                    if (dirY ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Up");
-                    if (dirY == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Down");
+                    if (dirZ ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Right");
+                    if (dirZ == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Left");
+                    if (dirY ==  1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Down");
+                    if (dirY == -1) Debug.Log("Player " + GameManager.PlayerID.ToString() + " Going Up");
                 }
             }
         }
