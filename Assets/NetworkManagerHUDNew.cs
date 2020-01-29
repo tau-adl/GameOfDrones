@@ -43,18 +43,20 @@ namespace UnityEngine.Networking
             manager = GetComponent<NetworkManager>();
             resolution = new Vector2(Screen.width, Screen.height);
             factor_x = (resolution.x / 1000);
-            factor_y = (resolution.y / 500);
+            factor_y = (resolution.y / 400);
         }
 
         void Update()
         {
+            // FOLLOWING CODE IS NOT NEEDED BECAUSE THERE IS ONLY LANDSCAPE MODE
+            /*
             if (resolution.x != Screen.width || resolution.y != Screen.height)
             {
                 resolution = new Vector2(Screen.width, Screen.height);
                 factor_x = (resolution.x / 800);
-                factor_y = (resolution.y / 600);
+                factor_y = (resolution.y / 500);
             }
-
+            */
             if (!showGUI)
                 return;
 
