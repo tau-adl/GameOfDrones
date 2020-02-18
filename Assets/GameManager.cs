@@ -14,24 +14,15 @@ public class GameManager : MonoBehaviour
     private int P2_Score = 0;
     public TelloSdkClient _telloClient;
     public  bool _droneMotorsOn;
-    public  int Tello_StickDataIntervalMilliseconds = 200;
+    public float MoveSpeedFactor = 0.25f;
+    public int Tello_StickDataIntervalMilliseconds = 200;
     public  bool turn_is_on = false;
-    /*
-    public void Select_PlayerID(int Value_From_Button)
-    {
-        PlayerID = Value_From_Button;
-        Debug.Log("Player Selected: " + PlayerID.ToString());
-    }
-    */
 
     public GameObject ball;
     public Text text;
-
-    public float ballDistance = 2;
-    public float ballThrowingForce = 10;
-
-    //private int? _fingerId;
-    //private Vector3 _touchStartPosition;
+    public bool ball_is_moving = false;
+    //public float ballDistance = 2;
+    //public float ballThrowingForce = 10;
 
 
     // Inc score functions
@@ -66,10 +57,21 @@ public class GameManager : MonoBehaviour
     }
 
     // Turn Button code
+    public void toggle_ball_is_moving()
+    {
+        if (PlayerID == 1)
+        {
+            ball_is_moving = true;
+            Debug.Log("GameManager, ball_is_moving");
+        }
+    }
     public void set_turn_on()
     {
-        turn_is_on = true;
-        Debug.Log("Turn is ON");
+        if (PlayerID == 1)
+        {
+            turn_is_on = true;
+            Debug.Log("Turn is ON");
+        }
     }
     public void set_turn_off()
     {
@@ -77,10 +79,4 @@ public class GameManager : MonoBehaviour
         Debug.Log("Turn is OFF");
     }
 
-    /*
-    void OnCollisionEnter(Collision collision)
-    {
-        text.text = "Collision!";
-    }
-    */
 }

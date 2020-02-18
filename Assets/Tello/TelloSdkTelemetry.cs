@@ -16,7 +16,7 @@ public class TelloSdkTelemetry
     private byte batteryPercent;
     private uint timeOfFlight;
     private uint motorTime;
-    private int barometer;
+    private float barometer;
 
     /// <summary>
     /// Gets drone pitch degrees.
@@ -71,7 +71,7 @@ public class TelloSdkTelemetry
     /// <summary>
     /// Gets barometer reading in centimeters.
     /// </summary>
-    public int Barometer { get => barometer; private set => barometer = value; }
+    public float Barometer { get => barometer; private set => barometer = value; }
     /// <summary>
     /// Gets the amount of time the motors have been used.
     /// </summary>
@@ -150,7 +150,7 @@ public class TelloSdkTelemetry
                     ok &= byte.TryParse(value, out result.batteryPercent);
                     break;
                 case "baro":
-                    ok &= int.TryParse(value, out result.barometer);
+                    ok &= float.TryParse(value, out result.barometer);
                     break;
                 case "time":
                     ok &= uint.TryParse(value, out result.motorTime);
@@ -172,5 +172,29 @@ public class TelloSdkTelemetry
         result.AccelerationVector = new TelloSdkCoordinates(agx, agy, agz);
         result.MissionPadCoordinates = new TelloSdkCoordinates(mpx, mpy, mpz);
         return ok;
+    }
+
+    public override string ToString()
+    {
+        return $"mid:{MissionPadId};" +
+            $"x:{MissionPadCoordinates.X:F2};" +
+            $"y:{MissionPadCoordinates.Y:F2};" +
+            $"z:{MissionPadCoordinates.Z:F2};" +
+            $"pitch:{PitchDegrees};" +
+            $"roll:{RollDegrees};" +
+            $"yaw:{YawDegrees};" +
+            $"vgx:{VelocityVector.X:F2};" +
+            $"vgy:{VelocityVector.Y:F2};" +
+            $"vgz:{VelocityVector.Z:F2};" +
+            $"templ:{MeasuredTemperatureLow};" +
+            $"temph:{MeasuredTemperatureHigh};" +
+            $"tof:{TimeOfFlight};" +
+            $"h:{Height};" +
+            $"bat:{BatteryPercent};" +
+            $"baro:{Barometer:F2};" +
+            $"time:{MotorTime};" +
+            $"agx:{AccelerationVector.X:F2};" +
+            $"agy:{AccelerationVector.Y:F2};" +
+            $"agz:{AccelerationVector.Z:F2};";
     }
 }

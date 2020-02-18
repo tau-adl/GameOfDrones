@@ -57,15 +57,15 @@ public class Player1_Handler : MonoBehaviour
                     if (dirZ!=0 || dirY!=0) { Debug.Log("DirZ=" + dirZ + ", DirY=" + dirY); }
                     if (GameManager.turn_is_on)
                     {
-                        GameManager._telloClient.TurnRight    = (dirZ ==  1);
-                        GameManager._telloClient.TurnLeft     = (dirZ == -1);
-                        GameManager._telloClient.MoveBackward = (dirY ==  1);
-                        GameManager._telloClient.MoveForward  = (dirY == -1);
+                        GameManager._telloClient.TurnLeft     = false; //(dirZ ==  1);
+                        GameManager._telloClient.TurnRight    = false; //(dirZ == -1);
+                        GameManager._telloClient.MoveBackward = false; //(dirY ==  1);
+                        GameManager._telloClient.MoveForward  = false; //(dirY == -1);
                     }
                     else
                     {
-                        GameManager._telloClient.MoveRight = (dirZ ==  1);
-                        GameManager._telloClient.MoveLeft  = (dirZ == -1);
+                        GameManager._telloClient.MoveLeft  = (dirZ ==  1);
+                        GameManager._telloClient.MoveRight = (dirZ == -1);
                         GameManager._telloClient.MoveDown  = (dirY ==  1);
                         GameManager._telloClient.MoveUp    = (dirY == -1);
                     }

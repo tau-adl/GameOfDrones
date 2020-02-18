@@ -9,6 +9,18 @@ public class TelloSdkStickData
     private sbyte _pitch;
     private sbyte _roll;
     private sbyte _yaw;
+    private float _moveSpeedFactor = 1;
+
+    public float MoveSpeedFactor
+    {
+        get => _moveSpeedFactor;
+        set
+        {
+            if (value < 0 || value > 1)
+                throw new ArgumentOutOfRangeException(nameof(value), $"The value of '{nameof(MoveSpeedFactor)}' must be between 0 and 1.");
+            _moveSpeedFactor = value;
+        }
+    }
 
     public sbyte Throttle
     {
@@ -80,7 +92,7 @@ public class TelloSdkStickData
         set
         {
             if (MoveLeft != value)
-                Roll = value ? MinValue : (sbyte)0;
+                Roll = value ? (sbyte)(MoveSpeedFactor*MinValue) : (sbyte)0;
         }
     }
 
@@ -90,7 +102,7 @@ public class TelloSdkStickData
         set
         {
             if (MoveRight != value)
-                Roll = value ? MaxValue : (sbyte)0;
+                Roll = value ? (sbyte)(MoveSpeedFactor * MaxValue) : (sbyte)0;
         }
     }
 
@@ -100,7 +112,7 @@ public class TelloSdkStickData
         set
         {
             if (MoveBackward != value)
-                Pitch = value ? MinValue : (sbyte)0;
+                Pitch = value ? (sbyte)(MoveSpeedFactor * MinValue) : (sbyte)0;
         }
     }
 
@@ -110,7 +122,7 @@ public class TelloSdkStickData
         set
         {
             if (MoveForward != value)
-                Pitch = value ? MaxValue : (sbyte)0;
+                Pitch = value ? (sbyte)(MoveSpeedFactor * MaxValue) : (sbyte)0;
         }
     }
 
@@ -120,7 +132,7 @@ public class TelloSdkStickData
         set
         {
             if (MoveDown != value)
-                Throttle = value ? MinValue : (sbyte)0;
+                Throttle = value ? (sbyte)(MoveSpeedFactor * MinValue) : (sbyte)0;
         }
     }
 
@@ -130,7 +142,7 @@ public class TelloSdkStickData
         set
         {
             if (MoveUp != value)
-                Throttle = value ? MaxValue : (sbyte)0;
+                Throttle = value ? (sbyte)(MoveSpeedFactor * MaxValue) : (sbyte)0;
         }
     }
 
@@ -140,7 +152,7 @@ public class TelloSdkStickData
         set
         {
             if (TurnLeft != value)
-                Yaw = value ? MinValue : (sbyte)0;
+                Yaw = value ? (sbyte)(MoveSpeedFactor * MinValue) : (sbyte)0;
         }
     }
 
@@ -150,7 +162,7 @@ public class TelloSdkStickData
         set
         {
             if (TurnRight != value)
-                Yaw = value ? MaxValue : (sbyte)0;
+                Yaw = value ? (sbyte)(MoveSpeedFactor * MaxValue) : (sbyte)0;
         }
     }
 }

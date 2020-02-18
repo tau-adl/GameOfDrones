@@ -648,15 +648,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BallMovement.cs" />
+    <Compile Include="Assets\BallObject.cs" />
+    <Compile Include="Assets\BallUnit.cs" />
     <Compile Include="Assets\Button_Player1_Handler.cs" />
     <Compile Include="Assets\Button_Player2_Handler.cs" />
     <Compile Include="Assets\ButtonStart_Handler.cs" />
     <Compile Include="Assets\ConnectButton_handler.cs" />
     <Compile Include="Assets\GameManager.cs" />
     <Compile Include="Assets\HoldableButton.cs" />
+    <Compile Include="Assets\InitPlayer1Position.cs" />
     <Compile Include="Assets\NetworkManagerHUDNew.cs" />
+    <Compile Include="Assets\Player_Handler.cs" />
+    <Compile Include="Assets\Player_Network.cs" />
     <Compile Include="Assets\Player1_Handler.cs" />
     <Compile Include="Assets\Player2_Handler.cs" />
+    <Compile Include="Assets\PlayerObject.cs" />
+    <Compile Include="Assets\SetupLocalPlayer.cs" />
     <Compile Include="Assets\SFXPlaying.cs" />
     <Compile Include="Assets\TakeOff_button.cs" />
     <Compile Include="Assets\Takeoff_handler.cs" />

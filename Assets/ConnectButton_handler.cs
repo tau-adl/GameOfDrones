@@ -6,7 +6,6 @@ public class ConnectButton_handler : MonoBehaviour
 {
     private GameManager GameManager;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +26,7 @@ public class ConnectButton_handler : MonoBehaviour
                 await GameManager._telloClient.StartAsync();
                 Debug.Log("Connected to Drone1");
                 // Set Tello speed
+                GameManager._telloClient.MoveSpeedFactor = GameManager.MoveSpeedFactor;
                 GameManager._telloClient.StickDataIntervalMilliseconds = GameManager.Tello_StickDataIntervalMilliseconds;
             }
             else

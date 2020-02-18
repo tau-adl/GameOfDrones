@@ -20,12 +20,12 @@ public class TelloSdkClient : IDisposable
 
     #region Private Fields
 
-    private readonly UdpClient _commandChannel, _telemetryChannel;
+    private readonly UdpClient _commandChannel;
     private readonly CancellationTokenSource _cts = new CancellationTokenSource();
     private readonly System.Timers.Timer _stickDataTimer = new System.Timers.Timer();
     private TelloSdkStickData _stickData = new TelloSdkStickData();
     private TelloSdkTelemetry _telemetry;
-    private int _sequenceNumber;
+    private bool _enableMissionMode;
 
     public TelloSdkStickData StickData
     {
@@ -41,6 +41,8 @@ public class TelloSdkClient : IDisposable
         get { return _telemetry?.BatteryPercent; }
     }
 
+    public TelloSdkTelemetry Telemetry { get => _telemetry; }
+
     public string HostName { get; private set; }
 
     public int ControlUdpPort { get; private set; } = DefaultControlUdpPort;
@@ -49,7 +51,21 @@ public class TelloSdkClient : IDisposable
 
     public bool IsDisposed { get; private set; }
 
+    public bool IsStarted { get; private set; }
+
     public double StickDataIntervalMilliseconds { get; set; } = DefaultStickDataIntervalMilliseconds;
+
+    public bool EnableMissionMode { get => _enableMissionMode;
+        set
+        {
+            if (_enableMissionMode != value)
+            {
+                if (IsStarted)
+                    throw new InvalidOperationException();
+                _enableMissionMode = value;
+            }
+        }
+    }
 
     #endregion Public Properties
 
@@ -68,9 +84,19 @@ public class TelloSdkClient : IDisposable
         HostName = hostname;
         ControlUdpPort = controlUdpPort;
         TelemetryUdpPort = telemetryUdpPort;
-        _commandChannel = new UdpClient(hostname, controlUdpPort);
-        var remoteEndPoint = (IPEndPoint)_commandChannel.Client.RemoteEndPoint;
-        _telemetryChannel = new UdpClient(remoteEndPoint.Address.ToString(), telemetryUdpPort);
+        // resolve Tello hostname and determine the local IP address for communicating with it:
+        var hostResolver = new UdpClient(hostname, ControlUdpPort);
+        var localIPAddress = ((IPEndPoint)hostResolver.Client.LocalEndPoint).Address;
+        var telloIPAddress = ((IPEndPoint)hostResolver.Client.RemoteEndPoint).Address;
+        hostResolver.Close();
+        // create contorl and telemetry channels:
+        _commandChannel = new UdpClient() { ExclusiveAddressUse = false };
+        //_telemetryChannel = new UdpClient() { ExclusiveAddressUse = false };
+        _commandChannel.Client.Bind(new IPEndPoint(localIPAddress, TelemetryUdpPort));
+        //_telemetryChannel.Client.Bind(new IPEndPoint(localIPAddress, TelemetryUdpPort));
+        var telloUdpPort = ControlUdpPort;
+        _commandChannel.Connect(new IPEndPoint(telloIPAddress, telloUdpPort));
+        //_telemetryChannel.Connect(new IPEndPoint(telloIPAddress, telloUdpPort));
     }
 
     ~TelloSdkClient()
@@ -84,12 +110,13 @@ public class TelloSdkClient : IDisposable
         {
             if (_stickDataTimer != null)
                 _stickDataTimer.Dispose();
-            if (_telemetryChannel != null)
-                _telemetryChannel.Dispose();
+            //if (_telemetryChannel != null)
+            //    _telemetryChannel.Dispose();
             if (_commandChannel != null)
                 _commandChannel.Dispose();
             if (_cts != null)
                 _cts.Dispose();
+            IsStarted = false;
             IsDisposed = true;
             if (disposing)
                 GC.SuppressFinalize(this);
@@ -104,9 +131,10 @@ public class TelloSdkClient : IDisposable
     {
         var bytes = Encoding.ASCII.GetBytes(command);
         return await _commandChannel.SendAsync(bytes, bytes.Length);
+        //return await ReceiveCommandResultAsync();
     }
 
-    private async Task<string> ReceiveCommandResultAsync(string command)
+    private async Task<string> ReceiveCommandResultAsync()
     {
         var result = await _commandChannel.ReceiveAsync();
         return Encoding.ASCII.GetString(result.Buffer);
@@ -116,11 +144,32 @@ public class TelloSdkClient : IDisposable
     {
         while (true)
         {
-            _cts.Token.ThrowIfCancellationRequested();
-            IPEndPoint remoteEndPoint = null;
-            var buffer = _telemetryChannel.Receive(ref remoteEndPoint);
-            var text = Encoding.ASCII.GetString(buffer);
-            TelloSdkTelemetry.TryParse(text, out _telemetry);
+            try
+            {
+                _cts.Token.ThrowIfCancellationRequested();
+                IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Parse("192.168.10.1"), 8889);
+                var buffer = _commandChannel.Receive(ref remoteEndPoint);
+                var text = Encoding.ASCII.GetString(buffer);
+                bool ok = TelloSdkTelemetry.TryParse(text, out _telemetry);
+                if (!ok)
+                    System.Diagnostics.Debug.Print("Failed to parse Tello telemetry.");
+            }
+            catch (ObjectDisposedException)
+            {
+                return;
+            }
+            catch (ThreadAbortException)
+            {
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Print(ex.ToString());
+            }
         }
     }
 
@@ -128,19 +177,20 @@ public class TelloSdkClient : IDisposable
     {
         var tcs = new TaskCompletionSource<int>();
         using (_cts.Token.Register(s => ((TaskCompletionSource<int>)s).TrySetResult(0), tcs)) {
-            while (true)
-            {
-                // start SDK mode:
-                var startSdkTask = SendCommandAsync("command");
-                var disableMissionMode = SendCommandAsync("moff");
-                await Task.WhenAny(startSdkTask, tcs.Task);
-                await Task.WhenAny(disableMissionMode, tcs.Task);
-                _cts.Token.ThrowIfCancellationRequested();
-                
-                break;
-            }
+            // start SDK mode:
+            var startSdkTask = SendCommandAsync("command");
+            var setMissionMode = SendCommandAsync(
+                _enableMissionMode ? "mon" : "moff");
+            await Task.WhenAny(startSdkTask, setMissionMode, tcs.Task);
+            _cts.Token.ThrowIfCancellationRequested();
+            IsStarted = true;
         }
-        _ = Task.Run(TelemetryChannelLoop, _cts.Token);
+        var telemetryThread = new Thread(TelemetryChannelLoop) 
+        {
+            IsBackground = true,
+            Priority= System.Threading.ThreadPriority.Lowest 
+        };
+        telemetryThread.Start();
         if (StickDataIntervalMilliseconds > 0)
         {
             _stickDataTimer.Interval = StickDataIntervalMilliseconds;
@@ -156,6 +206,7 @@ public class TelloSdkClient : IDisposable
 
     private void StickDataTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
     {
+        bool restart = true;
         try
         {
             var stickData = _stickData;
@@ -165,11 +216,18 @@ public class TelloSdkClient : IDisposable
         }
         catch (ObjectDisposedException)
         {
+            restart = false;
             return;
         }
         catch (OperationCanceledException)
         {
+            restart = false;
             return;
+        }
+        catch (AggregateException ex)
+        {
+            restart = ex.InnerExceptions.Count != 1 ||
+                      !(ex.InnerExceptions[0] is ObjectDisposedException);
         }
         catch (Exception ex)
         {
@@ -177,7 +235,8 @@ public class TelloSdkClient : IDisposable
         }
         finally
         {
-            _stickDataTimer.Start();
+            if (restart)
+                _stickDataTimer.Start();
         }
     }
 
@@ -199,10 +258,11 @@ public class TelloSdkClient : IDisposable
         {
             // suppress exception.
         }
-        if (_telemetryChannel != null)
-            _telemetryChannel.Close();
+        //if (_telemetryChannel != null)
+        //    _telemetryChannel.Close();
         if (_commandChannel != null)
             _commandChannel.Close();
+        IsStarted = false;
     }
     
     public async Task<bool> TakeOffAsync()
@@ -253,6 +313,12 @@ public class TelloSdkClient : IDisposable
     {
         var command = $"ap {ssid} {password}";
         return await SendCommandAsync(command);
+    }
+
+    public float MoveSpeedFactor
+    {
+        get => StickData.MoveSpeedFactor;
+        set => StickData.MoveSpeedFactor = value;
     }
 
     public bool MoveLeft

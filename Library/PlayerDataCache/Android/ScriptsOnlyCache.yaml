@@ -9,8 +9,8 @@ ScriptsOnlyBuild:
     - Button_Player2_Handler
     - ConnectButton_handler
     - GameManager
-    - Player1_Handler
     - Player2_Handler
+    - PlayerObject
     - SFXPlaying
     - TakeOff_button
     - UnityEngine.Networking.NetworkManagerHUDNew
@@ -91,51 +91,51 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10036}
     - Class: 114
-      Script: {instanceID: 10250}
-    - Class: 114
       Script: {instanceID: 10306}
     - Class: 114
       Script: {instanceID: 10336}
     - Class: 114
-      Script: {instanceID: 10412}
+      Script: {instanceID: 10414}
     - Class: 114
-      Script: {instanceID: 10424}
+      Script: {instanceID: 10426}
     - Class: 114
-      Script: {instanceID: 10546}
+      Script: {instanceID: 10548}
     - Class: 114
-      Script: {instanceID: 10554}
+      Script: {instanceID: 10556}
     - Class: 114
-      Script: {instanceID: 10564}
+      Script: {instanceID: 10566}
     - Class: 114
-      Script: {instanceID: 10568}
-    - Class: 114
-      Script: {instanceID: 10576}
+      Script: {instanceID: 10570}
     - Class: 114
       Script: {instanceID: 10578}
     - Class: 114
-      Script: {instanceID: 10752}
+      Script: {instanceID: 10580}
     - Class: 114
-      Script: {instanceID: 10922}
+      Script: {instanceID: 10754}
     - Class: 114
-      Script: {instanceID: 11050}
+      Script: {instanceID: 10928}
     - Class: 114
-      Script: {instanceID: 11254}
+      Script: {instanceID: 11060}
     - Class: 114
-      Script: {instanceID: 11424}
+      Script: {instanceID: 11264}
     - Class: 114
-      Script: {instanceID: 11486}
+      Script: {instanceID: 11328}
     - Class: 114
-      Script: {instanceID: 11500}
+      Script: {instanceID: 11436}
     - Class: 114
-      Script: {instanceID: 11562}
+      Script: {instanceID: 11498}
     - Class: 114
-      Script: {instanceID: 11846}
+      Script: {instanceID: 11512}
     - Class: 114
-      Script: {instanceID: 12022}
+      Script: {instanceID: 11574}
     - Class: 114
-      Script: {instanceID: 12050}
+      Script: {instanceID: 11860}
     - Class: 114
-      Script: {instanceID: 12110}
+      Script: {instanceID: 12036}
+    - Class: 114
+      Script: {instanceID: 12064}
+    - Class: 114
+      Script: {instanceID: 12124}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -387,6 +387,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ButtonStart_Handler
+  - hash:
+      serializedVersion: 2
+      Hash: c7d2251209b414b5d4a0f20dde9b3b38
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Player_Handler
   - hash:
       serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
@@ -882,6 +888,12 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SetupLocalPlayer
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
     className: NetworkCallbacks
@@ -897,6 +909,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAnimator
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BallUnit
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: InitPlayer1Position
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -989,6 +1013,12 @@ ScriptsOnlyBuild:
     className: Physics2DRaycaster
   - hash:
       serializedVersion: 2
+      Hash: 1aa6d4d8146f5922dca713232b1a160f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerObject
+  - hash:
+      serializedVersion: 2
       Hash: 318c6c13a19c9fac98135ae14889de1b
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
@@ -1059,6 +1089,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.CrossPlatformInput
     className: TouchPad
+  - hash:
+      serializedVersion: 2
+      Hash: b2c2621facec2c80714bbc8dde8cc640
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Player_Network
   - hash:
       serializedVersion: 2
       Hash: 1dcb82730d983b77cec736c6ef19f814
@@ -1397,7 +1433,7 @@ ScriptsOnlyBuild:
     className: ToggleGroup
   - hash:
       serializedVersion: 2
-      Hash: 35b8fbc0bdf08add712ea2dd7e9d3e28
+      Hash: 7d3c1f9a5f7728ce050d4111a7656f68
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BallMovement
@@ -1605,6 +1641,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: c58984aa918918c1b03078ce1b6a53ef
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: BallObject
   platform: 13
   scenePathNames:
   - Assets/Scenes/Game.unity
