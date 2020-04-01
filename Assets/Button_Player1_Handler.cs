@@ -32,4 +32,23 @@ public class Button_Player1_Handler : MonoBehaviour
             }
         }
     }
+
+    public void Set_NetPlayerID()
+    {
+        //GameManager.Select_PlayerID(1);
+        GameManager.PlayerID = 1;
+        Debug.Log("Select_Player1 was clicked (Net Version), PlayerID = 1");
+
+        // Start Host
+        bool noConnection = (manager.client == null || manager.client.connection == null || manager.client.connection.connectionId == -1);
+        if (!manager.IsClientConnected() && !NetworkServer.active && manager.matchMaker == null)
+        {
+            if (noConnection)
+            {
+                manager.StartMatchMaker();
+                Debug.Log("StartMatchMaker");
+            }
+        }
+    }
+
 }

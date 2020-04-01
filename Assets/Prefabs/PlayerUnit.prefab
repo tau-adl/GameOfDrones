@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13433088840b0d147a5ff3180d842064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameIsOn: 0
+  Player_position_updated_from_vuforia: 0
   droneLogText: {fileID: 0}
   BallPrefab: {fileID: 3658997102806642030, guid: f1876a1801d84d4469dbac58ee37ef6b,
     type: 3}

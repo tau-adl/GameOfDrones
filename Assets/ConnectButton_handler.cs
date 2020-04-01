@@ -28,6 +28,7 @@ public class ConnectButton_handler : MonoBehaviour
                 // Set Tello speed
                 GameManager._telloClient.MoveSpeedFactor = GameManager.MoveSpeedFactor;
                 GameManager._telloClient.StickDataIntervalMilliseconds = GameManager.Tello_StickDataIntervalMilliseconds;
+                GameManager.ConnectedToTello = true;
             }
             else
             {
@@ -63,6 +64,7 @@ public class ConnectButton_handler : MonoBehaviour
             {
                 GameManager._telloClient.Close();
                 GameManager._telloClient = null;
+                GameManager.ConnectedToTello = false;
             }
         }
         else if (GameManager.PlayerID == 2)

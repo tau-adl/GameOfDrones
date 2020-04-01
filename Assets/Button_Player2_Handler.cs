@@ -17,7 +17,6 @@ public class Button_Player2_Handler : MonoBehaviour
 
     public void Set_PlayerID()
     {
-        //GameManager.Select_PlayerID(2);
         GameManager.PlayerID = 2;
         Debug.Log("Select_Player2 was clicked, PlayerID = 2");
 
@@ -29,6 +28,23 @@ public class Button_Player2_Handler : MonoBehaviour
             {
                 manager.StartClient();
                 Debug.Log("StartClient");
+            }
+        }
+    }
+
+    public void Set_NetPlayerID()
+    {
+        GameManager.PlayerID = 2;
+        Debug.Log("Select_Player2 was clicked (Net Version), PlayerID = 2");
+
+        // Start Host
+        bool noConnection = (manager.client == null || manager.client.connection == null || manager.client.connection.connectionId == -1);
+        if (!manager.IsClientConnected() && !NetworkServer.active && manager.matchMaker == null)
+        {
+            if (noConnection)
+            {
+                manager.StartMatchMaker();
+                Debug.Log("StartMatchMaker");
             }
         }
     }

@@ -4,16 +4,17 @@ ScriptsOnlyBuild:
     - UnityStandardAssets.CrossPlatformInput.AxisTouchButton
     Assembly-CSharp.dll:
     - BallMovement
-    - ButtonStart_Handler
     - Button_Player1_Handler
     - Button_Player2_Handler
     - ConnectButton_handler
     - GameManager
-    - Player2_Handler
-    - PlayerObject
+    - PlayerUnit
     - SFXPlaying
     - TakeOff_button
+    - TelloTrackableEventHandler
     - UnityEngine.Networking.NetworkManagerHUDNew
+    - menu
+    - wall_marker_handler
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -76,6 +77,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
     - Class: 114
       Script: {instanceID: 9750}
     - Class: 114
@@ -91,11 +94,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10036}
     - Class: 114
-      Script: {instanceID: 10306}
+      Script: {instanceID: 10260}
     - Class: 114
-      Script: {instanceID: 10336}
-    - Class: 114
-      Script: {instanceID: 10414}
+      Script: {instanceID: 10308}
     - Class: 114
       Script: {instanceID: 10426}
     - Class: 114
@@ -113,29 +114,33 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10754}
     - Class: 114
-      Script: {instanceID: 10928}
+      Script: {instanceID: 10884}
     - Class: 114
-      Script: {instanceID: 11060}
+      Script: {instanceID: 10926}
     - Class: 114
-      Script: {instanceID: 11264}
+      Script: {instanceID: 11038}
     - Class: 114
-      Script: {instanceID: 11328}
+      Script: {instanceID: 11056}
     - Class: 114
-      Script: {instanceID: 11436}
+      Script: {instanceID: 11260}
     - Class: 114
-      Script: {instanceID: 11498}
+      Script: {instanceID: 11430}
     - Class: 114
-      Script: {instanceID: 11512}
+      Script: {instanceID: 11468}
     - Class: 114
-      Script: {instanceID: 11574}
+      Script: {instanceID: 11494}
     - Class: 114
-      Script: {instanceID: 11860}
+      Script: {instanceID: 11508}
     - Class: 114
-      Script: {instanceID: 12036}
+      Script: {instanceID: 11570}
     - Class: 114
-      Script: {instanceID: 12064}
+      Script: {instanceID: 11854}
     - Class: 114
-      Script: {instanceID: 12124}
+      Script: {instanceID: 12030}
+    - Class: 114
+      Script: {instanceID: 12058}
+    - Class: 114
+      Script: {instanceID: 12118}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -365,6 +370,12 @@ ScriptsOnlyBuild:
     className: Player1_Handler
   - hash:
       serializedVersion: 2
+      Hash: 252e58ac2de2590c18229943d70b5ed8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: menu
+  - hash:
+      serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -387,12 +398,6 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ButtonStart_Handler
-  - hash:
-      serializedVersion: 2
-      Hash: c7d2251209b414b5d4a0f20dde9b3b38
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Player_Handler
   - hash:
       serializedVersion: 2
       Hash: caa533b001ae39b864ba8425019e2268
@@ -887,10 +892,10 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: c0ee6faf45a6d8472295a38615052f8e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: SetupLocalPlayer
+    className: wall_marker_handler
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -912,18 +917,6 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: BallUnit
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: InitPlayer1Position
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.CrossPlatformInput
     className: MobileControlRig
@@ -939,6 +932,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TextContainer
+  - hash:
+      serializedVersion: 2
+      Hash: 76400cbbc2f3b77f348571a6696bdf27
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerUnit
   - hash:
       serializedVersion: 2
       Hash: 5f1752ed2092162f016c19510c28a8b9
@@ -1013,12 +1012,6 @@ ScriptsOnlyBuild:
     className: Physics2DRaycaster
   - hash:
       serializedVersion: 2
-      Hash: 1aa6d4d8146f5922dca713232b1a160f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: PlayerObject
-  - hash:
-      serializedVersion: 2
       Hash: 318c6c13a19c9fac98135ae14889de1b
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
@@ -1047,6 +1040,12 @@ ScriptsOnlyBuild:
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
     className: NetworkBehaviour
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TelloTrackableEventHandler
   - hash:
       serializedVersion: 2
       Hash: e197d0b748f0fe21846663bdb6454914
@@ -1091,12 +1090,6 @@ ScriptsOnlyBuild:
     className: TouchPad
   - hash:
       serializedVersion: 2
-      Hash: b2c2621facec2c80714bbc8dde8cc640
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Player_Network
-  - hash:
-      serializedVersion: 2
       Hash: 1dcb82730d983b77cec736c6ef19f814
     assemblyName: com.unity.multiplayer-hlapi.Runtime.dll
     namespaceName: UnityEngine.Networking
@@ -1127,7 +1120,7 @@ ScriptsOnlyBuild:
     className: Demo
   - hash:
       serializedVersion: 2
-      Hash: e0ee4b3d4e27318934cc940a969d3d96
+      Hash: b67c513c06e5af37a635e48e4e98c830
     assemblyName: Assembly-CSharp.dll
     namespaceName: UnityEngine.Networking
     className: NetworkManagerHUDNew
@@ -1385,7 +1378,7 @@ ScriptsOnlyBuild:
     className: WireframeTrackableEventHandler
   - hash:
       serializedVersion: 2
-      Hash: 247830145612de0075c29c6d91a637d2
+      Hash: 74fc5abe777dc250f735228a4e715691
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -1433,7 +1426,7 @@ ScriptsOnlyBuild:
     className: ToggleGroup
   - hash:
       serializedVersion: 2
-      Hash: 7d3c1f9a5f7728ce050d4111a7656f68
+      Hash: 02be4f0cabacf3b0c86ab5537e8ce982
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BallMovement

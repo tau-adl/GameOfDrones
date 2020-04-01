@@ -3,24 +3,29 @@ using UnityEngine.Networking;
 
 public class BallMovement : NetworkBehaviour
 {
+    private int board_y = 40;
+
     private GameManager     GameManager;
     public  PlayerUnit      Player1;
     //private Player2_Handler Player2_Handler;
     private SFXPlaying      SFXPlaying;
 
     public Vector3 direction;
-    float radius;
-    Vector3 PlayerSize = new Vector3(1.0f, 2.0f, 3.0f);
+    public float radius;
+    //float min_ball_x = 10;  // TBD: remove this temporary var
+    Vector3 last_ball_position;// = new Vector3(10f, 50.5f, 10f);
+    Vector3 PlayerSize;// = new Vector3(1.0f, 2.0f, 3.0f);
+    Vector3 InitPosition;// = new Vector3(10.0f, 50.5f, 10.0f);
 
     // Constants
-    public  float speed      =  1f;
+    public  float speed      =  0.7f;
     private float Lo_Bound_X =  0f;
-    private float Lo_Bound_Y =  10f;
+    private float Lo_Bound_Y;// =  50f;
     private float Lo_Bound_Z =  0f;
     private float Hi_Bound_X =  20f;
-    private float Hi_Bound_Y =  15f;
+    private float Hi_Bound_Y;// =  55f;
     private float Hi_Bound_Z =  20f;
-    float epsilon = 0.2f;
+    float epsilon = 0.25f;
 
     // Start is called before the first frame update
     void Start()
@@ -30,9 +35,18 @@ public class BallMovement : NetworkBehaviour
         GameManager = GameObject.FindObjectOfType<GameManager>();
         SFXPlaying = GameObject.FindObjectOfType<SFXPlaying>();
 
+        last_ball_position = new Vector3(10f, 50.5f, 10f);
+        PlayerSize = new Vector3(1.0f, 2.0f, 3.0f);
+        InitPosition = new Vector3(10.0f, 50.5f, 10.0f);
+        Lo_Bound_Y = 50f;
+        Hi_Bound_Y = 55f;
+
+        bool  initial_x_dir = (Random.value > 0.5f);
         float initial_vel_x = Random.Range(3.0f, 5.0f);  // 4.0f; // 
         float initial_vel_y = 0.0f; // Random.Range(3.0f, 5.0f);  // 
         float initial_vel_z = Random.Range(3.0f, 5.0f);  // 3.0f; // 
+        if (!initial_x_dir) { initial_vel_x = -initial_vel_x; }  // 50% move backwards
+
         direction = new Vector3(initial_vel_x, initial_vel_y, initial_vel_z).normalized;//float initial_vel_x = Random.Range(3.0f, 5.0f);
 
         radius = transform.localScale.x / 2; // half the ball width
@@ -79,23 +93,53 @@ public class BallMovement : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Inc score when hitting player side + PointFX (according to next position)
+        // DEBUG ONLY
+        /*
+        if (transform.position.x < min_ball_x)
+        {
+            min_ball_x = transform.position.x;
+            Debug.Log("BallMovement, Update: Min ball position x=" + min_ball_x);
+        }
+        //Debug.Log("BallMovement, Update: Ball position=(" + transform.position.x + "," + transform.position.y + "," + transform.position.z + ")");
+        */
+        if (transform.position.x <= (Lo_Bound_X + radius + 2*epsilon) &&
+            last_ball_position.x >  (Lo_Bound_X + radius + 2*epsilon)) { GameManager.IncPlayerScore(2); SFXPlaying.PlayPointFX(); }
+        if (transform.position.x >= (Hi_Bound_X - radius - 2*epsilon) &&
+            last_ball_position.x <  (Hi_Bound_X - radius - 2*epsilon)) { GameManager.IncPlayerScore(1); SFXPlaying.PlayPointFX(); }
+        last_ball_position = transform.position;
+
         if (GameManager.PlayerID != 1) { return; }   // Only Host update the balls position
+
+        if (GameManager.restart_pressed)  // init ball position & randomize new ball direction
+        {
+            // Update ball position to init position
+            GameManager.restart_pressed = false;
+            transform.position = InitPosition;
+
+            // Randomize new direction
+            float initial_vel_x = Random.Range(3.0f, 5.0f);
+            float initial_vel_y = 0.0f;
+            float initial_vel_z = Random.Range(3.0f, 5.0f);
+            direction = new Vector3(initial_vel_x, initial_vel_y, initial_vel_z).normalized;
+            last_ball_position = new Vector3(10f, board_y+0.5f, 10f);
+        }
 
         Player1 = GameObject.FindObjectOfType<PlayerUnit>();
 
         if (Player1 != null)
         {
-            //if (Player1.GameIsOn == true)
             if (GameManager.ball_is_moving)
             {
+                // Debug Zone
                 //Debug.Log("BallMovement: ball_is_moving is set!!!!");
                 //Debug.Log("BallMovement: Ball direction=" + direction);
+                //Debug.Log("BallMovement, Update: Ball position=(" + transform.position.x + "," + transform.position.y + "," + transform.position.z +")");
 
                 // move Ball to next position
                 transform.Translate(direction * speed * Time.deltaTime);
-                // Inc score when hitting player side + PointFX
-                if (transform.position.x <= Lo_Bound_X + radius && direction.x < 0) { GameManager.IncPlayerScore(2); SFXPlaying.PlayPointFX(); }
-                if (transform.position.x >= Hi_Bound_X - radius && direction.x > 0) { GameManager.IncPlayerScore(1); SFXPlaying.PlayPointFX(); }
+                //if (transform.position.x <= Lo_Bound_X + radius && direction.x < 0) { GameManager.IncPlayerScore(2); SFXPlaying.PlayPointFX(); }
+                //if (transform.position.x >= Hi_Bound_X - radius && direction.x > 0) { GameManager.IncPlayerScore(1); SFXPlaying.PlayPointFX(); }
 
                 // reverse velocity if boundary reached
                 if (transform.position.x <= Lo_Bound_X + radius && direction.x < 0) direction.x = -direction.x;
@@ -107,5 +151,7 @@ public class BallMovement : NetworkBehaviour
             }
         }
     }
+
+
 
 }

@@ -74,6 +74,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
     - Class: 114
       Script: {instanceID: 9750}
     - Class: 114
@@ -1349,7 +1351,7 @@ ScriptsOnlyBuild:
     className: WireframeTrackableEventHandler
   - hash:
       serializedVersion: 2
-      Hash: 3a47bb1a015a840aa44c4ffdd98b73f5
+      Hash: 94b6c282ba3f7abffc507171532c8060
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
